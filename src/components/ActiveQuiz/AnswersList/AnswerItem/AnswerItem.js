@@ -7,11 +7,13 @@ const AnswerItem = props => {
   if (props.state) {
     cls.push(classes[props.state])
   }
+
   return (
     <li
+      className={cls.join(' ')}
       onClick={() => props.onAnswerClick(props.answer.id)}
-      className={cls.join(' ')}>
-      {props.answer.text}
+    >
+      { props.answer.text }
     </li>
   )
 }
