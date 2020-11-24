@@ -24,3 +24,12 @@
 .error {
     color: rgba(240, 87, 108, .7);
 }
+
+.buttonsContainer {
+    display: flex;
+}
+
+.buttonsContainer *{
+    text-decoration: none;
+    cursor: pointer;
+}
