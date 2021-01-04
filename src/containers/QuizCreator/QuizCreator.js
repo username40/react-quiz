@@ -10,11 +10,11 @@ function createOptionControl(number) {
   return createControl({
     label: `Вариант ${number}`,
     errorMessage: 'Значение не может быть пустым',
-    id: number,
+    id: number
   }, { required: true })
 }
 
-function createFormControls(params) {
+function createFormControls() {
   return {
     question: createControl({
       label: 'Введите вопрос',
@@ -23,7 +23,7 @@ function createFormControls(params) {
     option1: createOptionControl(1),
     option2: createOptionControl(2),
     option3: createOptionControl(3),
-    option4: createOptionControl(4),
+    option4: createOptionControl(4)
   }
 }
 
@@ -32,13 +32,50 @@ export default class QuizCreator extends Component {
   state = {
     quiz: [],
     isFormValid: false,
-    formControls: createFormControls(),
-    rightAnswerId: 1
+    rightAnswerId: 1,
+    formControls: createFormControls()
   }
 
-  submitHandler = event => event.preventDefault()
-  addQuestionHandler = event => event.preventDefault()
-  createQuizHandler = event => event.preventDefault()
+  sibmitHandler = event => {
+    event.preventDefault()
+  }
+
+  addQuestionHandler = event => {
+    event.preventDefault()
+
+    const quiz = this.state.quiz.concat()
+    const index = quiz.length + 1
+
+    const { question, option1, option2, option3, option4 } = this.state.formControls
+
+    const questionItem = {
+      question: question.value,
+      id: index,
+      rightAnswerId: this.state.rightAnswerId,
+      answers: [
+        { text: option1.value, id: option1.id },
+        { text: option2.value, id: option2.id },
+        { text: option3.value, id: option3.id },
+        { text: option4.value, id: option4.id }
+      ]
+    }
+
+    quiz.push(questionItem)
+
+    this.setState({
+      quiz,
+      isFormValid: false,
+      rightAnswerId: 1,
+      formControls: createFormControls()
+    })
+  }
+
+  createQuizHandler = event => {
+    event.preventDefault()
+
+    console.log(this.state.quiz)
+    // TODO: Server
+  }
 
   changeHandler = (value, controlName) => {
     const formControls = { ...this.state.formControls }
@@ -59,6 +96,7 @@ export default class QuizCreator extends Component {
   renderControls() {
     return Object.keys(this.state.formControls).map((controlName, index) => {
       const control = this.state.formControls[controlName]
+
       return (
         <Auxiliary key={controlName + index}>
           <Input
@@ -91,7 +129,7 @@ export default class QuizCreator extends Component {
         { text: 1, value: 1 },
         { text: 2, value: 2 },
         { text: 3, value: 3 },
-        { text: 4, value: 4 },
+        { text: 4, value: 4 }
       ]}
     />
 
@@ -99,22 +137,31 @@ export default class QuizCreator extends Component {
       <div className={classes.QuizCreator}>
         <div>
           <h1>Создание теста</h1>
+
           <form onSubmit={this.submitHandler}>
+
             {this.renderControls()}
+
             {select}
+
             <Button
               type="primary"
               onClick={this.addQuestionHandler}
               disabled={!this.state.isFormValid}
-            >Добавить вопрос</Button>
+            >
+              Добавить вопрос
+            </Button>
+
             <Button
               type="success"
-              onclick={this.createQuizHandler}
+              onClick={this.createQuizHandler}
               disabled={this.state.quiz.length === 0}
-            >Создать тест</Button>
+            >
+              Создать тест
+            </Button>
+
           </form>
         </div>
-
       </div>
     )
   }
