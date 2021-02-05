@@ -1,6 +1,11 @@
 # react-quiz
 pet project to learn React JS
 
+[demo](https://react-quiz-b9da6.web.app/)
+
+published with firebase
+all project hosted on firebase (authentification, realtime database)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
